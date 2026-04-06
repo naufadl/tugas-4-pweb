@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cooking Classes | Berkembang</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose:   #C9896A;
+            --blush:  #E8C1B0;
+            --cream:  #FDF6EE;
+            --warm:   #F5EBE0;
+            --muted:  #9A7B6C;
+            --dark:   #2E1F1A;
+            --white:  #FFFFFF;
+            --amber:  #c47f1a;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); }
+
+        .logo {
+            position: fixed; top: 22px; left: 28px; z-index: 999;
+            background: var(--white); padding: 10px 24px; border-radius: 50px;
+            font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem;
+            color: var(--dark); text-decoration: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform .3s;
+        }
+        .logo:hover { transform: scale(1.05); }
+
+        .page-hero {
+            background: linear-gradient(135deg, #f7e8c4 0%, #f0cc9b 100%);
+            padding: 160px 24px 80px;
+            text-align: center; position: relative; overflow: hidden;
+        }
+        .page-hero::before {
+            content: "🍳";
+            font-size: 14rem; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); opacity: 0.07; pointer-events: none;
+        }
+        .eyebrow {
+            display: inline-block; background: rgba(255,255,255,0.6);
+            color: var(--amber); font-size: 0.75rem; font-weight: 500;
+            letter-spacing: 2.5px; text-transform: uppercase;
+            padding: 6px 18px; border-radius: 50px; margin-bottom: 20px;
+        }
+        .page-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--dark); position: relative;
+        }
+        .page-hero h1 em { font-style: italic; color: var(--amber); }
+        .page-hero p {
+            max-width: 520px; margin: 20px auto 0;
+            color: #7a5a2a; font-size: 1.05rem; line-height: 1.75; position: relative;
+        }
+
+        .breadcrumb {
+            display: flex; align-items: center; gap: 8px;
+            padding: 16px 40px; font-size: 0.8rem; color: var(--muted);
+            max-width: 980px; margin: 0 auto;
+        }
+        .breadcrumb a { color: var(--rose); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .container { max-width: 960px; margin: 0 auto; padding: 20px 40px 100px; }
+
+        .course-card {
+            background: var(--white); border-radius: 32px; margin-bottom: 36px;
+            overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+            border: 1px solid rgba(196,127,26,0.1);
+            transition: transform .3s, box-shadow .3s;
+        }
+        .course-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.09); }
+
+        .course-card-top {
+            background: linear-gradient(135deg, #f7e8c4, #faf0da);
+            padding: 40px 50px;
+            display: flex; justify-content: space-between; align-items: flex-start;
+            gap: 20px; flex-wrap: wrap;
+        }
+        .course-card-top .left { flex: 1; min-width: 200px; }
+
+        .course-tag {
+            display: inline-block; font-size: 0.7rem; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--amber);
+            background: rgba(255,255,255,0.7); padding: 4px 14px;
+            border-radius: 50px; margin-bottom: 12px;
+        }
+        .course-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem; margin-bottom: 10px;
+        }
+        .course-card .tagline { color: #7a5a2a; font-size: 0.95rem; line-height: 1.6; }
+
+        .price-badge {
+            background: var(--amber); color: var(--white);
+            padding: 16px 28px; border-radius: 20px;
+            text-align: center; min-width: 150px;
+            box-shadow: 0 8px 24px rgba(196,127,26,0.3);
+        }
+        .price-badge .amount {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem; display: block; font-weight: 700;
+        }
+        .price-badge .per { font-size: 0.75rem; opacity: 0.8; }
+        .price-badge .kit-note { font-size: 0.7rem; opacity: 0.7; display: block; margin-top: 4px; }
+
+        .course-card-body { padding: 40px 50px; }
+        .desc { color: var(--muted); font-size: 0.95rem; line-height: 1.75; margin-bottom: 32px; }
+
+        .meta-strip { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 28px; }
+        .meta-chip {
+            background: #fffbf0; border-radius: 50px;
+            padding: 8px 18px; font-size: 0.82rem; color: var(--muted);
+            display: flex; align-items: center; gap: 6px;
+            border: 1px solid rgba(196,127,26,0.12);
+        }
+
+        .benefits-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem; margin-bottom: 20px;
+        }
+        .benefits-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+        }
+        .benefit-item {
+            display: flex; align-items: flex-start; gap: 12px;
+            background: #fffbf0; border-radius: 16px; padding: 16px 18px;
+            transition: background .2s;
+        }
+        .benefit-item:hover { background: #f5e8c0; }
+        .benefit-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+        .benefit-text { font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+        .benefit-text strong { display: block; color: var(--dark); font-size: 0.9rem; margin-bottom: 2px; }
+
+        .enroll-strip {
+            background: var(--dark); border-radius: 28px; padding: 40px 50px;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 24px; flex-wrap: wrap; margin-top: 48px;
+        }
+        .enroll-strip p {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem; color: var(--white);
+        }
+        .enroll-strip p em { color: #f0cc9b; font-style: italic; }
+        .enroll-strip small { display: block; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: #a88c80; margin-top: 6px; }
+
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--amber); color: var(--white);
+            padding: 16px 38px; border-radius: 50px;
+            font-weight: 500; font-size: 0.95rem;
+            text-decoration: none;
+            transition: background .3s, transform .3s, box-shadow .3s;
+            box-shadow: 0 6px 24px rgba(196,127,26,0.35);
+            white-space: nowrap;
+        }
+        .btn-primary:hover {
+            background: #a86a10; transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(196,127,26,0.45);
+        }
+
+        /* OTHER CLASSES */
+        .other-classes { margin-top: 72px; text-align: center; }
+        .other-classes h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 8px; }
+        .other-classes p { color: var(--muted); font-size: 0.9rem; margin-bottom: 28px; }
+        .other-grid { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        .other-link {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--white); border: 1.5px solid rgba(201,137,106,0.2);
+            border-radius: 20px; padding: 16px 28px;
+            text-decoration: none; color: var(--dark);
+            font-size: 0.9rem; font-weight: 500;
+            transition: border-color .3s, transform .3s, box-shadow .3s;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+        }
+        .other-link:hover {
+            border-color: var(--rose); transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.09);
+        }
+
+        .fade-up { opacity: 0; transform: translateY(24px); transition: opacity .6s, transform .6s; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 640px) {
+            .benefits-grid { grid-template-columns: 1fr; }
+            .course-card-body, .course-card-top { padding: 28px 28px; }
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const obs = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add('visible')), { threshold: 0.1 });
+        document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+    });
+</script>
+
+<a href="index.html" class="logo">Berkembang 🌸</a>
+
+<div class="page-hero">
+    <span class="eyebrow">Culinary · 2 Classes Available</span>
+    <h1>Cooking <em>Classes</em></h1>
+    <p>Explore the rich flavors of Indonesian heritage and the sweet science of pastry — from spice to sweetness.</p>
+</div>
+
+<div class="breadcrumb">
+    <a href="index.html">Home</a> › Cooking Classes
+</div>
+
+<div class="container">
+
+    <div class="course-card fade-up">
+        <div class="course-card-top">
+            <div class="left">
+                <span class="course-tag">Class 01</span>
+                <h3>Authentic Heritage</h3>
+                <p class="tagline">Master the soul of Indonesian cuisine — secret spice blends, timeless techniques, and legendary flavors.</p>
+            </div>
+            <div class="price-badge">
+                <span class="amount">IDR 180K</span>
+                <span class="per">per person</span>
+                <span class="kit-note">✓ Ingredients included</span>
+            </div>
+        </div>
+        <div class="course-card-body">
+            <div class="meta-strip">
+                <span class="meta-chip">🕐 3–4 hours per session</span>
+                <span class="meta-chip">👥 Small group (max 10)</span>
+                <span class="meta-chip">🌱 Beginner friendly</span>
+            </div>
+            <p class="desc">Go beyond recipes and truly understand the art behind Indonesian cooking. You'll learn how to build layered flavor profiles using fresh spice pastes, balance sweet, savory, and umami, and recreate legendary dishes that taste exactly like home. All ingredients are fresh, organic, and provided for you.</p>
+            <div class="benefits-title">Everything Included</div>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <span class="benefit-icon">🌿</span>
+                    <div class="benefit-text"><strong>Fresh Ingredients</strong>All organic produce and spices provided on the day</div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">📕</span>
+                    <div class="benefit-text"><strong>Recipe Book</strong>Exclusive Berkembang Heritage Recipe Collection</div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">👩‍🍳</span>
+                    <div class="benefit-text"><strong>Signature Apron</strong>Branded Berkembang apron to keep forever</div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">🍽️</span>
+                    <div class="benefit-text"><strong>Tasting Session</strong>Communal dining table to enjoy your own creations</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="course-card fade-up">
+        <div class="course-card-top">
+            <div class="left">
+                <span class="course-tag">Class 02</span>
+                <h3>Dessert & Baking</h3>
+                <p class="tagline">The sweet science of pastry — airy cakes, delicate desserts, and precision baking that looks stunning.</p>
+            </div>
+            <div class="price-badge">
+                <span class="amount">IDR 190K</span>
+                <span class="per">per person</span>
+                <span class="kit-note">✓ Ingredients included</span>
+            </div>
+        </div>
+        <div class="course-card-body">
+            <div class="meta-strip">
+                <span class="meta-chip">🕐 3–4 hours per session</span>
+                <span class="meta-chip">👥 Small group (max 10)</span>
+                <span class="meta-chip">🍰 All levels welcome</span>
+            </div>
+            <p class="desc">Step into the world of pastry with a focus on understanding the chemistry behind baking. You'll learn how to achieve perfect textures, decorate with finesse, and present your baked creations beautifully — making them look as good as they taste. Your finished products go home with you in gorgeous packaging.</p>
+            <div class="benefits-title">Everything Included</div>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <span class="benefit-icon">🧁</span>
+                    <div class="benefit-text"><strong>Baking Materials</strong>Premium flour, butter, and specialty ingredients</div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">🫙</span>
+                    <div class="benefit-text"><strong>Cake Mold</strong>Professional-grade baking mold to take home</div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">🎀</span>
+                    <div class="benefit-text"><strong>Aesthetic Packaging</strong>Beautiful gift box for your finished creations</div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">🏅</span>
+                    <div class="benefit-text"><strong>Certificate</strong>Berkembang Certificate of Achievement</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="enroll-strip fade-up">
+        <div>
+            <p>Taste the joy of <em>creating.</em></p>
+            <small>Small groups only — for the best hands-on learning experience.</small>
+        </div>
+        <a href="form.html" class="btn-primary">Book My Class 🌸</a>
+    </div>
+
+    <!-- OTHER CLASSES -->
+    <div class="other-classes fade-up">
+        <h3>Explore Other Classes</h3>
+        <p>There's a whole world of creativity waiting — try a different discipline too.</p>
+        <div class="other-grid">
+            <a href="crochet.html" class="other-link">🧶 Crochet Classes</a>
+            <a href="makeup.html" class="other-link">💄 Make-Up Classes</a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

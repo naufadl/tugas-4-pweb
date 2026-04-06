@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crochet Classes | Berkembang</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose:   #C9896A;
+            --blush:  #E8C1B0;
+            --cream:  #FDF6EE;
+            --warm:   #F5EBE0;
+            --muted:  #9A7B6C;
+            --dark:   #2E1F1A;
+            --white:  #FFFFFF;
+            --accent: #f0b99b;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); }
+
+        .logo {
+            position: fixed; top: 22px; left: 28px; z-index: 999;
+            background: var(--white); padding: 10px 24px; border-radius: 50px;
+            font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem;
+            color: var(--dark); text-decoration: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform .3s;
+        }
+        .logo:hover { transform: scale(1.05); }
+
+        /* PAGE HERO */
+        .page-hero {
+            background: linear-gradient(135deg, #f7d9c4 0%, #f0c8ad 100%);
+            padding: 160px 24px 80px;
+            text-align: center;
+            position: relative; overflow: hidden;
+        }
+        .page-hero::before {
+            content: "🧶";
+            font-size: 14rem; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.07; pointer-events: none;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            background: rgba(255,255,255,0.6); color: var(--rose);
+            font-size: 0.75rem; font-weight: 500;
+            letter-spacing: 2.5px; text-transform: uppercase;
+            padding: 6px 18px; border-radius: 50px; margin-bottom: 20px;
+        }
+        .page-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            color: var(--dark); position: relative;
+        }
+        .page-hero h1 em { font-style: italic; color: var(--rose); }
+        .page-hero p {
+            max-width: 520px; margin: 20px auto 0;
+            color: var(--muted); font-size: 1.05rem; line-height: 1.75; position: relative;
+        }
+
+        /* NAV BACK */
+        .breadcrumb {
+            display: flex; align-items: center; gap: 8px;
+            padding: 16px 40px; font-size: 0.8rem; color: var(--muted);
+            max-width: 980px; margin: 0 auto;
+        }
+        .breadcrumb a { color: var(--rose); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .container { max-width: 960px; margin: 0 auto; padding: 20px 40px 100px; }
+
+        /* COURSE CARD */
+        .course-card {
+            background: var(--white); border-radius: 32px; margin-bottom: 36px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+            border: 1px solid rgba(201,137,106,0.1);
+            transition: transform .3s, box-shadow .3s;
+        }
+        .course-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.09); }
+
+        .course-card-top {
+            background: linear-gradient(135deg, #f7d9c4, #fae8da);
+            padding: 40px 50px;
+            display: flex; justify-content: space-between; align-items: flex-start;
+            gap: 20px; flex-wrap: wrap;
+        }
+        .course-card-top .left { flex: 1; min-width: 200px; }
+
+        .course-tag {
+            display: inline-block; font-size: 0.7rem; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--rose);
+            background: rgba(255,255,255,0.7); padding: 4px 14px;
+            border-radius: 50px; margin-bottom: 12px;
+        }
+        .course-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem; margin-bottom: 10px;
+        }
+        .course-card .tagline { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
+
+        .price-badge {
+            background: var(--rose); color: var(--white);
+            padding: 16px 28px; border-radius: 20px;
+            text-align: center; min-width: 150px;
+            box-shadow: 0 8px 24px rgba(201,137,106,0.3);
+        }
+        .price-badge .amount {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem; display: block; font-weight: 700;
+        }
+        .price-badge .per { font-size: 0.75rem; opacity: 0.8; }
+        .price-badge .kit-note {
+            font-size: 0.7rem; opacity: 0.7; display: block; margin-top: 4px;
+        }
+
+        .course-card-body { padding: 40px 50px; }
+        .desc { color: var(--muted); font-size: 0.95rem; line-height: 1.75; margin-bottom: 32px; }
+
+        /* DURATION STRIP */
+        .meta-strip {
+            display: flex; gap: 20px; flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+        .meta-chip {
+            background: var(--warm); border-radius: 50px;
+            padding: 8px 18px; font-size: 0.82rem; color: var(--muted);
+            display: flex; align-items: center; gap: 6px;
+        }
+
+        .benefits-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem; margin-bottom: 20px;
+        }
+        .benefits-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 14px; margin-bottom: 0;
+        }
+        .benefit-item {
+            display: flex; align-items: flex-start; gap: 12px;
+            background: var(--warm); border-radius: 16px; padding: 16px 18px;
+            transition: background .2s;
+        }
+        .benefit-item:hover { background: #eeddd2; }
+        .benefit-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+        .benefit-text { font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+        .benefit-text strong { display: block; color: var(--dark); font-size: 0.9rem; margin-bottom: 2px; }
+
+        /* ENROLL STRIP */
+        .enroll-strip {
+            background: var(--dark); border-radius: 28px; padding: 40px 50px;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 24px; flex-wrap: wrap; margin-top: 48px;
+        }
+        .enroll-strip p {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem; color: var(--white);
+        }
+        .enroll-strip p em { color: var(--blush); font-style: italic; }
+        .enroll-strip small { display: block; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: #a88c80; margin-top: 6px; }
+
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--rose); color: var(--white);
+            padding: 16px 38px; border-radius: 50px;
+            font-weight: 500; font-size: 0.95rem;
+            text-decoration: none;
+            transition: background .3s, transform .3s, box-shadow .3s;
+            box-shadow: 0 6px 24px rgba(201,137,106,0.35);
+            white-space: nowrap;
+        }
+        .btn-primary:hover {
+            background: #b8775a; transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(201,137,106,0.45);
+        }
+
+        /* OTHER CLASSES */
+        .other-classes {
+            margin-top: 72px; text-align: center;
+        }
+        .other-classes h3 {
+            font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 8px;
+        }
+        .other-classes p { color: var(--muted); font-size: 0.9rem; margin-bottom: 28px; }
+        .other-grid { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        .other-link {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--white); border: 1.5px solid rgba(201,137,106,0.2);
+            border-radius: 20px; padding: 16px 28px;
+            text-decoration: none; color: var(--dark);
+            font-size: 0.9rem; font-weight: 500;
+            transition: border-color .3s, transform .3s, box-shadow .3s;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+        }
+        .other-link:hover {
+            border-color: var(--rose); transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.09);
+        }
+
+        /* FADE UP */
+        .fade-up { opacity: 0; transform: translateY(24px); transition: opacity .6s, transform .6s; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 640px) {
+            .benefits-grid { grid-template-columns: 1fr; }
+            .course-card-body, .course-card-top { padding: 28px 28px; }
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const obs = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add('visible')), { threshold: 0.1 });
+        document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+    });
+</script>
+
+<a href="index.html" class="logo">Berkembang 🌸</a>
+
+<div class="page-hero">
+    <span class="eyebrow">Handcraft · 2 Classes Available</span>
+    <h1>Crochet <em>Classes</em></h1>
+    <p>Pick up a hook, choose your yarn, and create something beautiful with your own two hands.</p>
+</div>
+
+<div class="breadcrumb">
+    <a href="index.html">Home</a> › Crochet Classes
+</div>
+
+<div class="container">
+
+    <!-- CARD 1 -->
+    <div class="course-card fade-up">
+        <div class="course-card-top">
+            <div class="left">
+                <span class="course-tag">Class 01</span>
+                <h3>Wearable Fashion</h3>
+                <p class="tagline">Trendy, sustainable pieces you can actually wear — bags, scarves, headbands & more.</p>
+            </div>
+            <div class="price-badge">
+                <span class="amount">IDR 150K</span>
+                <span class="per">per person</span>
+                <span class="kit-note">✓ Kit included</span>
+            </div>
+        </div>
+        <div class="course-card-body">
+            <div class="meta-strip">
+                <span class="meta-chip">🕐 2–3 hours per session</span>
+                <span class="meta-chip">👥 Small group (max 10)</span>
+                <span class="meta-chip">🌱 Beginner friendly</span>
+            </div>
+            <p class="desc">Master the essential stitches and build the confidence to create your own wardrobe accessories. This class is perfect for complete beginners — we guide you from your very first chain stitch to a finished wearable piece you'll be proud to show off.</p>
+            <div class="benefits-title">Everything Included</div>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <span class="benefit-icon">🧵</span>
+                    <div class="benefit-text"><strong>Premium Yarn</strong>2 rolls of soft milk cotton yarn in your choice of color</div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">🪝</span>
+                    <div class="benefit-text"><strong>Rose Gold Hook</strong>Ergonomic crochet hook to keep after class</div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">📖</span>
+                    <div class="benefit-text"><strong>Pattern Guide</strong>Comprehensive printed pattern booklet to take home</div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">🎬</span>
+                    <div class="benefit-text"><strong>Video Access</strong>Step-by-step tutorial videos to revisit anytime</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="course-card fade-up">
+        <div class="course-card-top">
+            <div class="left">
+                <span class="course-tag">Class 02</span>
+                <h3>Amigurumi (3D Plushies)</h3>
+                <p class="tagline">Enter the whimsical world of adorable 3D yarn characters — perfect gifts and home décor.</p>
+            </div>
+            <div class="price-badge">
+                <span class="amount">IDR 140K</span>
+                <span class="per">per person</span>
+                <span class="kit-note">✓ Kit included</span>
+            </div>
+        </div>
+        <div class="course-card-body">
+            <div class="meta-strip">
+                <span class="meta-chip">🕐 2–3 hours per session</span>
+                <span class="meta-chip">👥 Small group (max 10)</span>
+                <span class="meta-chip">🌱 Beginner friendly</span>
+            </div>
+            <p class="desc">Learn how to sculpt yarn into charming three-dimensional animals and characters using the magic of continuous crochet rounds. By the end of this session, you'll walk away with a completed plushie and the skills to make endless variations on your own.</p>
+            <div class="benefits-title">Everything Included</div>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <span class="benefit-icon">🌈</span>
+                    <div class="benefit-text"><strong>Multi-Color Yarn Set</strong>Colorful yarn bundle + high-grade stuffing</div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">👁️</span>
+                    <div class="benefit-text"><strong>Safety Eyes Kit</strong>Assorted safety eyes and a stitch marker set</div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">🃏</span>
+                    <div class="benefit-text"><strong>Pattern Card</strong>Exclusive Berkembang amigurumi design card</div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">🏅</span>
+                    <div class="benefit-text"><strong>Completion Certificate</strong>Official Berkembang certificate of achievement</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ENROLL STRIP -->
+    <div class="enroll-strip fade-up">
+        <div>
+            <p>Ready to start <em>creating?</em></p>
+            <small>Both classes are beginner-friendly. Seats are limited — reserve yours now!</small>
+        </div>
+        <a href="form.html" class="btn-primary">Reserve My Seat 🌸</a>
+    </div>
+
+    <!-- OTHER CLASSES -->
+    <div class="other-classes fade-up">
+        <h3>Explore Other Classes</h3>
+        <p>Not into crochet? We have two more creative disciplines waiting for you.</p>
+        <div class="other-grid">
+            <a href="makeup.html" class="other-link">💄 Make-Up Classes</a>
+            <a href="cooking.html" class="other-link">🍳 Cooking Classes</a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

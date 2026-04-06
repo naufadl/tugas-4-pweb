@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrollment | Berkembang</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rose:   #C9896A;
+            --blush:  #E8C1B0;
+            --cream:  #FDF6EE;
+            --warm:   #F5EBE0;
+            --muted:  #9A7B6C;
+            --dark:   #2E1F1A;
+            --white:  #FFFFFF;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #f3ddd3 0%, #fdf6ee 60%, #e8c1b0 100%);
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 100px 24px 60px;
+            position: relative;
+        }
+
+        body::before {
+            content: "🌸";
+            font-size: 22rem; position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.04; pointer-events: none; z-index: 0;
+        }
+
+        .logo {
+            position: fixed; top: 22px; left: 28px; z-index: 999;
+            background: var(--white); padding: 10px 24px; border-radius: 50px;
+            font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem;
+            color: var(--dark); text-decoration: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform .3s;
+        }
+        .logo:hover { transform: scale(1.05); }
+
+        .page-wrapper {
+            display: flex; gap: 48px; align-items: flex-start;
+            max-width: 960px; width: 100%;
+            position: relative; z-index: 10;
+            flex-wrap: wrap; justify-content: center;
+        }
+
+        /* LEFT INFO */
+        .form-info {
+            flex: 1; min-width: 260px; max-width: 340px;
+            padding-top: 12px;
+        }
+        .form-info .eyebrow {
+            display: inline-block;
+            background: var(--blush); color: var(--rose);
+            font-size: 0.72rem; font-weight: 500;
+            letter-spacing: 2.5px; text-transform: uppercase;
+            padding: 5px 16px; border-radius: 50px; margin-bottom: 20px;
+        }
+        .form-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem; line-height: 1.15; color: var(--dark);
+            margin-bottom: 18px;
+        }
+        .form-info h2 em { font-style: italic; color: var(--rose); }
+        .form-info p {
+            color: var(--muted); font-size: 0.95rem;
+            line-height: 1.75; margin-bottom: 36px;
+        }
+
+        .info-list { list-style: none; }
+        .info-list li {
+            display: flex; align-items: center; gap: 12px;
+            font-size: 0.88rem; color: var(--muted);
+            margin-bottom: 14px;
+        }
+        .info-list li span.icon {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: var(--white);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            flex-shrink: 0;
+        }
+
+        /* PRICE PREVIEW */
+        .price-preview {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 24px 28px;
+            margin-top: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .price-preview h5 {
+            font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--muted); margin-bottom: 14px;
+        }
+        .price-row {
+            display: flex; justify-content: space-between;
+            font-size: 0.85rem; color: var(--muted);
+            margin-bottom: 8px;
+        }
+        .price-row span:last-child { color: var(--dark); font-weight: 500; }
+        .price-row.highlight span:last-child { color: var(--rose); font-family: 'Playfair Display', serif; font-size: 1rem; }
+
+        /* FORM BOX */
+        .form-box {
+            flex: 1; min-width: 320px; max-width: 480px;
+            background: var(--white);
+            padding: 52px 48px;
+            border-radius: 36px;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.1);
+        }
+
+        .form-box h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem; margin-bottom: 6px; color: var(--dark);
+        }
+        .form-box .subtitle { color: var(--muted); font-size: 0.88rem; margin-bottom: 36px; }
+
+        .field { margin-bottom: 22px; }
+
+        label {
+            display: block;
+            font-size: 0.75rem; font-weight: 500;
+            color: var(--muted); letter-spacing: 1.5px;
+            text-transform: uppercase; margin-bottom: 8px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 14px;
+            border: 1.5px solid #eee;
+            background: var(--warm);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem; color: var(--dark);
+            outline: none;
+            transition: border .3s, background .3s, box-shadow .3s;
+            appearance: none; -webkit-appearance: none;
+        }
+        input::placeholder, textarea::placeholder { color: #bba898; }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--rose);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(201,137,106,0.1);
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239A7B6C' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+            cursor: pointer;
+        }
+
+        textarea { resize: vertical; }
+
+        /* RADIO OPTIONS */
+        .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .radio-opt {
+            flex: 1; min-width: 100px;
+            border: 1.5px solid #eee;
+            background: var(--warm);
+            border-radius: 12px; padding: 10px 14px;
+            text-align: center; cursor: pointer;
+            font-size: 0.85rem; color: var(--muted);
+            transition: border-color .2s, background .2s, color .2s;
+        }
+        .radio-opt input { display: none; }
+        .radio-opt:has(input:checked),
+        .radio-opt.selected {
+            border-color: var(--rose);
+            background: rgba(201,137,106,0.08);
+            color: var(--rose);
+        }
+
+        .btn-submit {
+            width: 100%; padding: 18px;
+            background: var(--rose); color: var(--white);
+            border: none; border-radius: 50px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500; font-size: 1rem;
+            cursor: pointer; transition: background .3s, transform .3s, box-shadow .3s;
+            margin-top: 8px; letter-spacing: 0.5px;
+            box-shadow: 0 8px 24px rgba(201,137,106,0.3);
+        }
+        .btn-submit:hover {
+            background: #b8775a; transform: translateY(-2px);
+            box-shadow: 0 14px 32px rgba(201,137,106,0.4);
+        }
+
+        /* SUCCESS */
+        .success-message { display: none; text-align: center; padding: 20px 0; }
+        .success-message .big-icon { font-size: 3.5rem; margin-bottom: 16px; }
+        .success-message h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem; margin-bottom: 10px; color: var(--dark);
+        }
+        .success-message p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+        .success-message .back-link {
+            display: inline-block; margin-top: 24px;
+            color: var(--rose); font-size: 0.9rem; text-decoration: none;
+        }
+        .success-message .back-link:hover { text-decoration: underline; }
+
+        .divider { border: none; border-top: 1px solid #f0e8e0; margin: 28px 0; }
+        .privacy-note { font-size: 0.75rem; color: #bba898; text-align: center; margin-top: 16px; }
+
+        @media (max-width: 640px) {
+            .form-box { padding: 36px 28px; }
+        }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="logo">Berkembang 🌸</a>
+
+<div class="page-wrapper">
+
+    <!-- LEFT INFO -->
+    <div class="form-info">
+        <span class="eyebrow">Enrollment</span>
+        <h2>Secure Your <em>Spot</em></h2>
+        <p>Fill in your details below to reserve a seat. All classes are small-group sessions for a personal, focused learning experience.</p>
+        <ul class="info-list">
+            <li><span class="icon">🎁</span> All kits & materials included</li>
+            <li><span class="icon">👩‍🏫</span> Expert, passionate instructors</li>
+            <li><span class="icon">🌱</span> Beginner-friendly environment</li>
+            <li><span class="icon">📍</span> Surabaya, East Java</li>
+            <li><span class="icon">📞</span> +62 812-3456-7890</li>
+            <li><span class="icon">📷</span> @yokkberkembangyokk</li>
+        </ul>
+
+        <div class="price-preview">
+            <h5>Starting Prices</h5>
+            <div class="price-row"><span>🧶 Crochet</span><span>from IDR 140K</span></div>
+            <div class="price-row"><span>💄 Make-Up</span><span>from IDR 200K</span></div>
+            <div class="price-row"><span>🍳 Cooking</span><span>from IDR 180K</span></div>
+            <div style="border-top: 1px solid #f0e8e0; margin-top: 12px; padding-top: 12px;">
+                <div class="price-row highlight"><span>All kits included</span><span>✓ Free</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="form-box">
+        <h3>Your Details</h3>
+        <p class="subtitle">We'll confirm your booking via WhatsApp within 24 hours.</p>
+
+        <form id="enroll-form">
+            <div class="field">
+                <label>Full Name</label>
+                <input type="text" placeholder="e.g. Izzah Naufalia Adila" required>
+            </div>
+
+            <div class="field">
+                <label>WhatsApp Number</label>
+                <input type="tel" placeholder="0812-xxxx-xxxx" required>
+            </div>
+
+            <div class="field">
+                <label>Email Address <span style="font-size:0.7rem;opacity:0.6;text-transform:none;letter-spacing:0">(optional)</span></label>
+                <input type="email" placeholder="you@email.com">
+            </div>
+
+            <div class="field">
+                <label>Choose Your Class</label>
+                <select required>
+                    <option value="" disabled selected>Select a class…</option>
+                    <optgroup label="🧶 Crochet">
+                        <option>Crochet: Wearable Fashion — IDR 150,000</option>
+                        <option>Crochet: Amigurumi (3D Plushies) — IDR 140,000</option>
+                    </optgroup>
+                    <optgroup label="💄 Make-Up">
+                        <option>Make-Up: Daily Natural Look — IDR 200,000</option>
+                        <option>Make-Up: Glamour & Artistic Look — IDR 220,000</option>
+                    </optgroup>
+                    <optgroup label="🍳 Cooking">
+                        <option>Cooking: Authentic Heritage — IDR 180,000</option>
+                        <option>Cooking: Dessert & Baking — IDR 190,000</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Experience Level</label>
+                <div class="radio-group">
+                    <label class="radio-opt">
+                        <input type="radio" name="level" value="complete-beginner"> 🌱 Total Beginner
+                    </label>
+                    <label class="radio-opt">
+                        <input type="radio" name="level" value="some-experience"> 🌿 Some Experience
+                    </label>
+                    <label class="radio-opt">
+                        <input type="radio" name="level" value="intermediate"> 🌳 Intermediate
+                    </label>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Special Requests <span style="font-size:0.7rem;opacity:0.6;text-transform:none;letter-spacing:0">(optional)</span></label>
+                <textarea rows="3" placeholder="Any allergies, goals, or questions for us?"></textarea>
+            </div>
+
+            <hr class="divider">
+
+            <button type="submit" class="btn-submit">Complete Enrollment 🌸</button>
+            <p class="privacy-note">🔒 Your information is kept private and only used for enrollment purposes.</p>
+        </form>
+
+        <div class="success-message" id="success">
+            <div class="big-icon">🌸</div>
+            <h4>You're In!</h4>
+            <p>Your enrollment has been submitted. We'll confirm your spot via WhatsApp within 24 hours. We can't wait to see you bloom!</p>
+            <a href="index.html" class="back-link">← Back to Home</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.getElementById('enroll-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        this.style.display = 'none';
+        document.getElementById('success').style.display = 'block';
+    });
+</script>
+
+</body>
+</html>
